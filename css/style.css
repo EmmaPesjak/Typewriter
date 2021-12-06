@@ -1,0 +1,67 @@
+@font-face {
+    font-family: "JosefinSans";
+    src: url(../font/JosefinSans-VariableFont_wght.ttf);
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Jost";
+    src: url(../font/Jost-VariableFont_wght.ttf);
+    font-weight: 400;
+    font-style: normal;
+}
+
+html {
+    min-height: 100%;
+    background-image: url(../img/background.jpg);
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+body {
+    color: darkslategray;
+    max-width: 600px;
+    text-align: center;
+    margin: 0 auto;
+    font-family: Jost;
+}
+
+img {
+    width: 100px;
+    padding: 2em;
+}
+
+header {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: center;
+    align-items: center;
+    margin: 2em;
+}
+
+h1, h2, h3 {
+    font-family: JosefinSans;
+}
+
+h1 {
+    font-size: 4em;
+}
+
+footer {
+    color: darkslategray;
+    font-size: .8em;
+    border-top: 2px solid darkslategray;
+}
+
+a {
+    color: darkslategray;
+    text-decoration: none;
+    border: 1px solid darkslategray;
+    padding: .2em;
+}
+
+a:hover {
+    border: 2px solid darkslategray;
+}
