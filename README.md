@@ -27,3 +27,11 @@ This README would normally document whatever steps are necessary to get your app
 
 * Repo owner or admin
 * Other community or team contact
+
+
+
+
+
+först html och css
+sen typsnitt och animation i D-delen
+sen drop downen

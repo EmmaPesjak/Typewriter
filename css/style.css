@@ -25,10 +25,10 @@ body {
     max-width: 600px;
     text-align: center;
     margin: 0 auto;
-    font-family: Jost;
+    font-family: Jost, serif;
 }
 
-img {
+.logo {
     width: 100px;
     padding: 2em;
 }
@@ -38,21 +38,109 @@ header {
     grid-template-columns: auto auto;
     justify-content: center;
     align-items: center;
-    margin: 2em;
+    margin-top: 2em;
 }
 
 h1, h2, h3 {
-    font-family: JosefinSans;
+    font-family: JosefinSans, serif;
 }
 
 h1 {
     font-size: 4em;
+    animation: header 2s ease-in-out infinite alternate;
+}
+
+@keyframes header {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(50%);
+        color: slategray;
+    }
+}
+
+.settings {
+    padding: 1.5em;
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.radio-buttons {
+    text-align: left;
+}
+
+input {
+    margin-top: 1em;
+    padding: .5em;
+}
+
+select {
+    padding: .4em;
+    border: 2px solid darkslategray;
+    background-color: rgba(189, 200, 196, .7);
+    color: darkslategray;
+    text-align: left;
+}
+
+.text-detail {
+    border: 2px solid darkslategray;
+    background-color: rgba(189, 200, 196, .7);
+}
+
+.text-detail p {
+    text-align: left;
+    padding-left: 1em;
+    padding-right: 1em;
+    margin-top: 0;
+    margin-bottom: .4em;
+}
+
+.inputtext {
+    border: 2px solid darkslategray;
+    background-color: rgba(189, 200, 196, .7);
+    text-align: center;
+    color: darkslategray;
+}
+
+.inputtext:focus::placeholder {
+    color: transparent;
+}
+
+*:focus {
+    outline: none;
+}
+
+button {
+    border: none;
+    width: 50px;
+    background-color: transparent;
+}
+
+.play-stop {
+    width: 30px;
+    padding-top: 1em;
+    cursor: pointer;
+}
+
+.statistics {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: center;
+}
+
+.statistics p {
+    padding-left: 2em;
+    padding-right: 2em;
+    margin-top: .4em;
+    margin-bottom: .4em;
 }
 
 footer {
     color: darkslategray;
     font-size: .8em;
     border-top: 2px solid darkslategray;
+    margin-bottom: 2em;
 }
 
 a {
@@ -65,3 +153,4 @@ a {
 a:hover {
     border: 2px solid darkslategray;
 }
+

@@ -1,4 +1,12 @@
 <!DOCTYPE html>
+
+<!--
+Emma Pesjak
+empe2105
+empe2105@student.miun.se
+-->
+
+<!--suppress LanguageDetectionInspection -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,32 +14,70 @@
     <title>Type</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="shortcut icon" type="image/jpg" href="img/typewriter.png"/>
-    <script src="js/main.js"></script>
+    <script src="js/main.js" defer></script>
 </head>
 <body>
     <header>
-        <img src="img/typewriter.png" alt="logo of typewriter">
+        <img src="img/typewriter.png" alt="logo of typewriter" class="logo">
         <h1>Type</h1>
     </header>
 
 
     <main>
-        <section>
-            <p>Här ska det sättas in inställningar och textväjlare enl 3.1.2</p>
+        <section class="settings">
+            <section class="radio-buttons">
+                <label for="ignore-casing">
+                    <input id="ignore-casing" type="checkbox" name="ignore-casing"> Ignore casing
+                </label>
+                <br>
+                <label for="swedish">
+                    <input type="radio" name="swedish-english" id="swedish">Swedish
+                </label>
+                <label for="english">
+                    <input type="radio" name="swedish-english" id="english">English
+                </label>
+            </section>
+
+            <section class="drop-down">
+                <label for="texts">Choose text</label><br>
+                <select name="texts" id="texts">
+                    <option value="Förändringens Tid">Förändringens Tid</option>
+                    <option value="Moln">Moln</option>
+                    <option value="Jag har en dröm">Jag har en dröm</option>
+                    <option value="Doktor Glas">Doktor Glas</option>
+                    <option value="Katherine">Katherine</option>
+                    <option value="Love and Weirdness">Love and Weirdness</option>
+                    <option value="Integrity">Integrity</option>
+                    <option value="The Odyssey">The Odyssey</option>
+                    <option value="Short">Short</option>
+                    <option value="Kort">Kort</option>
+                </select>
+            </section>
         </section>
 
-        <section>
-            <h2>Texttrubrik</h2>
-            <h3>Författare</h3>
-            <p>Textinnehåll enl 3.1.3</p>
+        <section class="text-detail">
+            <h2 id="title">Förändringens Tid</h2>
+            <h3 id="author">Erik Ström</h3>
+            <p id="textarea">Vinden viner över sällsamma ruiner, över berg och slätter, dagar som nätter.
+                Ger världen form inför den kommande storm, likt gudars sång, skall bli dess undergång.
+                Svart som natten, blank likt vatten, i skyn du häver då Allfader kräver. Åter resas skall nu han,
+                som i misteln döden fann. Sonas med sin ene broder, den blinde född av samma moder. Satt att råda
+                är de båda, bröders hand över evigt land.</p>
         </section>
 
-        <section>
-            <p>Här ska in input och buttons enl 3.1.4</p>
+        <section class="user-typing">
+            <label>
+                <input type="text" placeholder="Type here..." name="inputtext" class="inputtext">
+            </label>
+            <br>
+            <button type="button" id="btn"><img id="play-stop" src="img/play.png" alt="play or stop button" class="play-stop"></button>
         </section>
 
-        <section>
-            <p>Här ska in statistik enl 3.1.5</p>
+        <section class="statistics">
+            <p id="gross">Gross WPM:</p>
+            <p id="accuracy">Accuracy:</p>
+            <p id="net">Net WPM:</p>
+            <p id="errors">Errors:</p>
         </section>
 
     </main>
