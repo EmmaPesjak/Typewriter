@@ -96,6 +96,18 @@ select {
     margin-bottom: .4em;
 }
 
+.text-background {
+    background-color: rgba(166, 188, 180, 1);
+}
+
+.incorrect {
+    color: red;
+}
+
+.correct {
+    color: rgba(118, 142, 133, 0.8);
+}
+
 .inputtext {
     border: 2px solid darkslategray;
     background-color: rgba(189, 200, 196, .7);

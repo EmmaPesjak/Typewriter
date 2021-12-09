@@ -18,7 +18,14 @@ let select = document.querySelector("select");
 let chosenText;
 let chosenAuthor;
 
+let arrayText;
 
+const inputElement = document.getElementById("inputtext");
+
+let counter = 0
+var span = document.querySelector('span');  // kan detta tas bort?
+
+let wrongSound = new Audio("../audio/wrong-sound.mp3")
 
 select.addEventListener("change", () => {
     if (select.value === "Förändringens Tid") {
@@ -84,16 +91,11 @@ select.addEventListener("change", () => {
     author.innerText = `${chosenAuthor} (${wordcount} words, ${charcount} chars)`;
 })
 
-
-
 let btn = document.getElementById("btn")
 let playStopImg = document.getElementById("play-stop")
-//let STOP;
-//let PLAY;
 let gameChange;
 
 btn.addEventListener("click", startGame)
-
 
 base()
 function base() {
@@ -101,20 +103,60 @@ function base() {
 }
 
 function startGame() {
-    // behövs detta??? let currentState = stoppedGame ? STOP : PLAY
+
     if (gameChange) {
         playStopImg.setAttribute("src", "img/stop.png")
+        document.getElementById("inputtext").disabled = false // gör att man inte kan ge input innan play
         yolo()
     } else {
         playStopImg.setAttribute("src", "img/play.png")
+        document.getElementById("inputtext").disabled = true
+        document.getElementById("inputtext").value = ""
+        counter = 0
     }
     gameChange = !gameChange
 }
 
 function yolo() {
-    //textDisplay.innerText = "test, här ska spelet igång"
 
-    // Set each character in a <span> and give them a class to set background colour.
-    chosenText = `<span class="char">${chosenText.split("").join("</span><span class='char'>")} <\/span>`;
-    console.log(chosenText)
+    textDisplay.innerText = ""
+
+    chosenText.split("").forEach(character => {
+        const characterSpan = document.createElement("span")
+        characterSpan.innerText = character
+        textDisplay.appendChild(characterSpan)
+    })
+
+    arrayText = textDisplay.querySelectorAll("span")
+
+    arrayText[0].classList.add("text-background")
+
+    inputElement.addEventListener("input", yalla)
+}
+
+function yalla(e) {
+
+    const spanElement = arrayText[counter]
+    const nextElement = arrayText[(counter + 1)]
+
+    if (counter === arrayText.length - 1) {
+        spanElement.classList.remove("text-background")
+    } else {
+        nextElement.classList.add("text-background")
+        spanElement.classList.remove("text-background")
+    }
+
+    if (e.data !== spanElement.innerText) {
+        spanElement.classList.add("incorrect")
+        wrongSound.play()
+    } else {
+        spanElement.classList.add("correct")
+    }
+
+    // detta blankar efter varje mellanslag.
+    if (e.data === " ") {
+        document.getElementById("inputtext").value = ""
+    }
+
+    counter = counter + 1
 }
