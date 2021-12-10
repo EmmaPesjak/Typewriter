@@ -10,24 +10,47 @@
 //xhr.send();
 // men det loggar ut xmlen i consolen
 
-// Detta är till dropdownen
-let textDisplay = document.getElementById("textarea")
-let title = document.getElementById("title")
-let author = document.getElementById("author")
+
+const textDisplay = document.getElementById("textarea")
+const title = document.getElementById("title")
+const author = document.getElementById("author")
 let select = document.querySelector("select");
 let chosenText;
 let chosenAuthor;
-
 let arrayText;
-
 const inputElement = document.getElementById("inputtext");
+let counter;
+const wrongSound = new Audio("../audio/wrong-sound.mp3")
 
-let counter = 0
-var span = document.querySelector('span');  // kan detta tas bort?
+const btn = document.getElementById("btn")
+const playStopImg = document.getElementById("play-stop")
+let gameChange = true
 
-let wrongSound = new Audio("../audio/wrong-sound.mp3")
 
-select.addEventListener("change", () => {
+const statsGWPM = document.getElementById("gross")
+const statsNWPM = document.getElementById("net")
+const statsAcc = document.getElementById("accuracy")
+const statsErr = document.getElementById("errors")
+let errorCounter;
+
+
+
+
+//var span = document.querySelector('span');  // kan detta tas bort?
+
+select.addEventListener("change", textfixer)
+
+// kör så förstasidan blir rätt
+textfixer()
+
+
+
+let timerNow;
+let timerStart;
+
+
+
+function textfixer() {
     if (select.value === "Förändringens Tid") {
         chosenText = "Vinden viner över sällsamma ruiner, över berg och slätter, " +
             "dagar som nätter. Ger världen form inför den kommande storm, likt gudars sång," +
@@ -89,36 +112,46 @@ select.addEventListener("change", () => {
     const wordcount = chosenText.split(" ").length
     const charcount = chosenText.trim().length
     author.innerText = `${chosenAuthor} (${wordcount} words, ${charcount} chars)`;
-})
 
-let btn = document.getElementById("btn")
-let playStopImg = document.getElementById("play-stop")
-let gameChange;
+    resetFunc()
+    stopFunc()
+}
 
 btn.addEventListener("click", startGame)
-
-base()
-function base() {
-    gameChange = true
-}
 
 function startGame() {
 
     if (gameChange) {
         playStopImg.setAttribute("src", "img/stop.png")
         document.getElementById("inputtext").disabled = false // gör att man inte kan ge input innan play
+        resetFunc()
+        timerStart = new Date()
         yolo()
     } else {
-        playStopImg.setAttribute("src", "img/play.png")
-        document.getElementById("inputtext").disabled = true
-        document.getElementById("inputtext").value = ""
-        counter = 0
+        stopFunc()
+        arrayText[0].classList.remove("text-background")  //removes the text background on first char in case player only clicks play/stop/splay/stop
     }
     gameChange = !gameChange
 }
 
+function resetFunc() {
+    errorCounter = 0
+    counter = 0
+    statsErr.innerText = "Errors:"
+    statsAcc.innerText = "Accuracy:"
+    statsGWPM.innerText = "Gross WPM:"
+    statsNWPM.innerText = "Net WPM:"
+}
+
+function stopFunc() {
+    playStopImg.setAttribute("src", "img/play.png")
+    document.getElementById("inputtext").disabled = true
+    document.getElementById("inputtext").value = ""
+}
+
 function yolo() {
 
+    // removes placeholder text so that the spanned text can take its place.
     textDisplay.innerText = ""
 
     chosenText.split("").forEach(character => {
@@ -139,6 +172,7 @@ function yalla(e) {
     const spanElement = arrayText[counter]
     const nextElement = arrayText[(counter + 1)]
 
+    // Make sure script works when user is at end of text.
     if (counter === arrayText.length - 1) {
         spanElement.classList.remove("text-background")
     } else {
@@ -146,17 +180,53 @@ function yalla(e) {
         spanElement.classList.remove("text-background")
     }
 
-    if (e.data !== spanElement.innerText) {
+    // Check if ignore casing is checked.
+    const ignoreCasing = document.getElementById("ignore-casing")
+    let input = e.data
+    let charToCompare = spanElement.innerText
+    if (ignoreCasing.checked) {
+        input = input.toLowerCase()
+        charToCompare = charToCompare.toLowerCase()
+    }
+
+    // Compare input with expected character
+    if (input !== charToCompare) {
         spanElement.classList.add("incorrect")
         wrongSound.play()
+        errorCounter = errorCounter + 1
     } else {
         spanElement.classList.add("correct")
     }
 
-    // detta blankar efter varje mellanslag.
-    if (e.data === " ") {
+    // Blanks the input box after every blank.
+    if (input === " ") {
         document.getElementById("inputtext").value = ""
     }
 
     counter = counter + 1
+    timerNow = new Date()
+    statistics()
 }
+
+function statistics() {
+    statsErr.innerText = `Errors: ${errorCounter}`
+
+    let accuracy = (100 - (errorCounter/counter * 100)).toFixed(0)
+    statsAcc.innerText = `Accuracy: ${accuracy}%`
+
+    let grossWPM = (((counter / 5) / (timerNow.getTime() - timerStart.getTime())) * 60 * 1000).toFixed(0)
+    statsGWPM.innerText = `Gross WPM: ${grossWPM}`
+
+    // Blir detta rätt?
+    let netWPM = (((counter / 5) - errorCounter) / (timerNow.getTime() - timerStart.getTime()) * 60 * 1000).toFixed(0)
+    if (netWPM > 0) {
+        statsNWPM.innerText = `Net WPM: ${netWPM}`
+    } else {
+        statsNWPM.innerText = "Net WPM: 0"
+    }
+}
+
+
+//svenska/engelska function
+
+//canvas
