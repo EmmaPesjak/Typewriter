@@ -35,3 +35,5 @@ This README would normally document whatever steps are necessary to get your app
 först html och css
 sen typsnitt och animation i D-delen
 sen drop downen
+
+logikfel med minuspoäng i net WPM, därav alltid minst 0

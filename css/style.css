@@ -135,10 +135,18 @@ button {
     cursor: pointer;
 }
 
+canvas {
+    border: 2px solid darkslategray;
+    width: 160px;
+    height: 60px;
+    margin-bottom: .4em;
+}
+
 .statistics {
     display: grid;
-    grid-template-columns: auto auto;
-    justify-content: center;
+    grid-template-columns: auto auto auto;
+    justify-content: left;
+    align-items: end;
 }
 
 .statistics p {

@@ -1,8 +1,4 @@
-
-let titleList = []
-let authorList = []
-let languageList = []
-let textList = []
+const parsedList = []
 
 
 // det här är ju ett fett stort frågetecken
@@ -17,21 +13,17 @@ xhr.onload = function () {
     let languages = xml.querySelectorAll("language")
     let texts = xml.querySelectorAll("text")
 
-    titles.forEach(title => {
-        titleList.push(title.innerHTML)
-    })
 
-    authors.forEach(author => {
-        authorList.push(author.innerHTML)
-    })
 
-    languages.forEach(language => {
-        languageList.push(language.innerHTML)
-    })
-
-    texts.forEach(text => {
-        textList.push(text.innerHTML)
-    })
+    for (let i = 0; i < titles.length; i++) {
+        parsedList.push({
+            id: i,
+            title: titles[i].innerHTML,
+            author: authors[i].innerHTML,
+            language: languages[i].innerHTML,
+            text: texts[i].innerHTML
+        })
+    }
 
     dropDown()
 
@@ -72,9 +64,11 @@ let timerStart;
 
 function textfixer() {
 
-    title.innerText = titleList[select.value]
-    chosenText = textList[select.value]
-    chosenAuthor = authorList[select.value]
+    // sätta dessa som lokala variabler istället??
+
+    title.innerText = parsedList[select.value].title
+    chosenText = parsedList[select.value].text
+    chosenAuthor = parsedList[select.value].author
     textDisplay.innerText = chosenText;
     const wordcount = chosenText.split(" ").length
     const charcount = chosenText.trim().length
@@ -197,56 +191,65 @@ function statistics() {
 const buttons = document.querySelectorAll("input[name='swedish-english']")
 buttons.forEach(button => button.addEventListener("change", dropDown))
 
-function languages() {
-    if (document.getElementById("swedish").checked) {
-        languageList.forEach((option, index) => {
-            if (option === "english") {
-                let testttt= document.getElementsByTagName("option")
-                testttt[index].disabled = true
-            }
-        })
-    } else {
-        languageList.forEach((option, index) => {
-            if (option === "swedish") {
-                let testttt= document.getElementsByTagName("option")
-                testttt[index].disabled = true
-            }
-        })
-    }
-}
 
 function dropDown() {
 
+    //resets the dropdown list.
+    document.getElementById("select").innerHTML = ""
+
     if (document.getElementById("swedish").checked) {
 
-        languageList.forEach((option, index) => {
-            if (option === "english") {
-                console.log(option)
-                select.remove(index)
+        parsedList.forEach(textObj => {
+            if (textObj.language === "swedish") {
+                const el = document.createElement("option")
+                el.value = textObj.id
+                el.textContent = textObj.title
+                select.add(el)
             }
         })
+        textfixer()
+
     } else if (document.getElementById("english").checked) {
-        languageList.forEach((option, index) => {
-            if (option === "swedish") {
 
-
-                let testttt= document.getElementsByTagName("option")
-                testttt[index].disabled = true
+        parsedList.forEach(textObj => {
+            if (textObj.language === "english") {
+                const el = document.createElement("option")
+                el.value = textObj.id
+                el.textContent = textObj.title
+                select.add(el)
             }
         })
+        textfixer()
+
     } else {
-        titleList.forEach((option, index) => {
+        parsedList.forEach(textObj => {
             const el = document.createElement("option")
-            el.value = index
-            el.textContent = option
+            el.value = textObj.id
+            el.textContent = textObj.title
             select.add(el)
         })
     }
-
-
-
 }
 
 
 
 //canvas
+let canvas = document.querySelector("canvas")
+let context = canvas.getContext("2d")
+
+context.fillRect(0, 30, 300, 1)
+context.fillRect(0, 60, 300, 1)
+context.fillRect(0, 90, 300, 1)
+context.fillRect(0, 120, 300, 1)
+
+
+context.beginPath();
+
+context.moveTo(0, 0)
+context.lineTo(0, 20)
+context.lineTo(50, 30)
+context.lineTo(70, 40)
+context.lineTo(80, 20)
+
+context.stroke();
+
