@@ -6,7 +6,6 @@ empe2105
 empe2105@student.miun.se
 -->
 
-<!--suppress LanguageDetectionInspection -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,7 +13,7 @@ empe2105@student.miun.se
     <title>Type</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="shortcut icon" type="image/jpg" href="img/typewriter.png"/>
-    <script src="js/main.js" defer></script>
+    <script src="js/main.js"></script>
 </head>
 <body>
     <header>
@@ -24,8 +23,8 @@ empe2105@student.miun.se
 
 
     <main>
-        <section class="settings">
-            <section class="radio-buttons">
+        <form class="settings">
+            <fieldset class="radio-buttons">
                 <label for="ignore-casing">
                     <input id="ignore-casing" type="checkbox" name="ignore-casing"> Ignore casing
                 </label>
@@ -36,14 +35,14 @@ empe2105@student.miun.se
                 <label for="english">
                     <input type="radio" name="swedish-english" id="english">English
                 </label>
-            </section>
+            </fieldset>
 
-            <section class="drop-down">
+            <fieldset class="drop-down">
                 <label for="select">Choose text</label><br>
                 <select name="select" id="select">
                 </select>
-            </section>
-        </section>
+            </fieldset>
+        </form>
 
         <section class="text-detail">
             <h2 id="title"></h2>
@@ -51,13 +50,14 @@ empe2105@student.miun.se
             <p id="textarea"></p>
         </section>
 
-        <section class="user-typing">
+        <form class="user-typing">
             <label>
-                <input type="text" placeholder="Type here..." name="inputtext" class="inputtext" id="inputtext" disabled>
+                <input type="text" placeholder="Type here..." name="inputtext" class="inputtext" id="inputtext"
+                       disabled>
             </label>
             <br>
             <button type="button" id="btn"><img id="play-stop" src="img/play.png" alt="play or stop button" class="play-stop"></button>
-        </section>
+        </form>
 
         <section class="statistics">
             <canvas></canvas>
@@ -69,7 +69,6 @@ empe2105@student.miun.se
                 <p id="accuracy">Accuracy:</p>
                 <p id="errors">Errors:</p>
             </div>
-
         </section>
 
     </main>

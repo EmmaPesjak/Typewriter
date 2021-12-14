@@ -67,6 +67,10 @@ h1 {
     grid-template-columns: auto auto;
 }
 
+fieldset {
+    border: none;
+}
+
 .radio-buttons {
     text-align: left;
 }
@@ -78,13 +82,14 @@ input {
 
 select {
     padding: .4em;
-    border: 2px solid darkslategray;
-    background-color: rgba(189, 200, 196, .7);
     color: darkslategray;
     text-align: left;
 }
 
-.text-detail {
+select,
+.text-detail,
+.inputtext,
+canvas {
     border: 2px solid darkslategray;
     background-color: rgba(189, 200, 196, .7);
 }
@@ -110,8 +115,6 @@ select {
 }
 
 .inputtext {
-    border: 2px solid darkslategray;
-    background-color: rgba(189, 200, 196, .7);
     text-align: center;
     color: darkslategray;
 }
@@ -137,8 +140,6 @@ button {
 }
 
 canvas {
-    border: 2px solid darkslategray;
-    background-color: rgba(189, 200, 196, .7);
     margin: .8em 1em .4em;
 }
 
@@ -157,7 +158,6 @@ canvas {
 }
 
 footer {
-    color: darkslategray;
     font-size: .8em;
     border-top: 2px solid darkslategray;
     margin-bottom: 2em;
