@@ -255,7 +255,6 @@ function init() {
     let counter;
     let errorCounter;
 
-    const btn = document.getElementById("btn");
     const playStopImg = document.getElementById("play-stop");
     let gameOn = true;
 
@@ -273,6 +272,7 @@ function init() {
     const languageBtn = document.querySelectorAll("input[name='swedish-english']");
     languageBtn.forEach(button => button.addEventListener("change", SetUpDropDown));
 
+    const btn = document.getElementById("btn");
     btn.addEventListener("click", startStopGame);
 }
 

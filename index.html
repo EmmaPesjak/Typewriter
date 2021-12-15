@@ -8,6 +8,7 @@ empe2105@student.miun.se
 
 <html lang="en">
 <head>
+    <!-- Metadata, links to the stylesheet, favicon and script. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Type</title>
@@ -23,10 +24,11 @@ empe2105@student.miun.se
 
 
     <main>
+        <!-- Casing and language settings, and dropdown menu. -->
         <form class="settings">
             <fieldset class="radio-buttons">
                 <label for="ignore-casing">
-                    <input id="ignore-casing" type="checkbox" name="ignore-casing"> Ignore casing
+                    <input type="checkbox" name="ignore-casing" id="ignore-casing"> Ignore casing
                 </label>
                 <br>
                 <label for="swedish">
@@ -44,21 +46,25 @@ empe2105@student.miun.se
             </fieldset>
         </form>
 
+        <!-- Section for the chosen text information. -->
         <section class="text-detail">
             <h2 id="title"></h2>
             <h3 id="author"></h3>
             <p id="textarea"></p>
         </section>
 
+        <!-- Section for user input and game button. -->
         <form class="user-typing">
             <label>
                 <input type="text" placeholder="Type here..." name="inputtext" class="inputtext" id="inputtext"
                        disabled>
             </label>
             <br>
-            <button type="button" id="btn"><img id="play-stop" src="img/play.png" alt="play or stop button" class="play-stop"></button>
+            <button type="button" id="btn"><img id="play-stop" src="img/play.png"
+                                                alt="play or stop button" class="play-stop"></button>
         </form>
 
+        <!-- Section for all statistics and canvas. -->
         <section class="statistics">
             <canvas></canvas>
             <div class="mid-col">
