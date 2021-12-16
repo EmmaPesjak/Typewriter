@@ -79,7 +79,7 @@ function init() {
 
         // Calculate amount och words and characters in the chosen text.
         const wordcount = chosenText.split(" ").length;
-        const charcount = chosenText.trim().length;
+        const charcount = chosenText.length;
         document.getElementById("author").innerText =
             `${chosenAuthor} (${wordcount} words, ${charcount} chars)`;
 
@@ -141,7 +141,7 @@ function init() {
             setCanvas();
             spanText();
         } else {
-            // Stop the game.
+            // Call stop function to stop the game.
             stopFunc();
             // Remove the text background on the first character in case player only clicks play/stop/play/stop
             arrayText[0].classList.remove("text-background");
@@ -171,6 +171,8 @@ function init() {
     }
 
     function gameInput(e) {
+        // Function that compares user input with the text and adds classes/ plays sound
+        // depending on if user is correct or not.
 
         const spanElement = arrayText[counter];
         const nextElement = arrayText[(counter + 1)];
@@ -178,6 +180,7 @@ function init() {
         // Make sure script works when user is at end of text.
         if (counter === arrayText.length - 1) {
             spanElement.classList.remove("text-background");
+            inputElement.disabled = true;
         } else {
             nextElement.classList.add("text-background");
             spanElement.classList.remove("text-background");
@@ -209,17 +212,12 @@ function init() {
 
         //increment the counter and get the time for the input.
         counter = counter + 1;
-        timerNow = new Date();
-        statistics();
+        let timerNow = new Date();
+        statistics(timerNow);
     }
 
-    function statistics() {
+    function statistics(timerNow) {
         // Function that calculate and display statistics on the page.
-
-        statsErr.innerText = `Errors: ${errorCounter}`;
-
-        let accuracy = (100 - (errorCounter/counter * 100)).toFixed(0);
-        statsAcc.innerText = `Accuracy: ${accuracy}%`;
 
         let grossWPM = (((counter / 5) / (timerNow.getTime() - timerStart.getTime())) * 60 * 1000).toFixed(0);
         statsGWPM.innerText = `Gross WPM: ${grossWPM}`;
@@ -232,10 +230,15 @@ function init() {
             statsNWPM.innerText = "Net WPM: 0";
         }
 
-        // Calculate time passed in seconds, and update the canvas. In order to revert the y-axis,
+        let accuracy = (100 - (errorCounter/counter * 100)).toFixed(0);
+        statsAcc.innerText = `Accuracy: ${accuracy}%`;
+
+        statsErr.innerText = `Errors: ${errorCounter}`;
+
+        // Update the canvas. X-axis forwards movement is calculated by counter multiplied with
+        // canvas width multiplied with total number of characters in the text. In order to invert the y-axis,
         // the y coordinate is set to the canvas height minus the WPM.
-        let timePassed = (timerNow.getTime() - timerStart.getTime()) / 1000;
-        context.lineTo(timePassed, (canvas.height - netWPM));
+        context.lineTo((counter * canvas.width / chosenText.length), (canvas.height - netWPM));
         context.strokeStyle = "darkslategray";
         context.stroke();
     }
@@ -254,8 +257,10 @@ function init() {
 
     let counter;
     let errorCounter;
+    let timerStart;
 
     const playStopImg = document.getElementById("play-stop");
+
     let gameOn = true;
 
     const statsGWPM = document.getElementById("gross");
@@ -263,17 +268,15 @@ function init() {
     const statsAcc = document.getElementById("accuracy");
     const statsErr = document.getElementById("errors");
 
-    let timerNow;
-    let timerStart;
-
     let canvas = document.querySelector("canvas");
     let context = canvas.getContext("2d");
 
-    const languageBtn = document.querySelectorAll("input[name='swedish-english']");
-    languageBtn.forEach(button => button.addEventListener("change", SetUpDropDown));
 
-    const btn = document.getElementById("btn");
-    btn.addEventListener("click", startStopGame);
+    // Add eventlisteners on the buttons.
+    document.querySelectorAll("input[name='swedish-english']")
+        .forEach(button => button.addEventListener("change", SetUpDropDown));
+
+    document.getElementById("btn").addEventListener("click", startStopGame);
 }
 
 window.addEventListener("load", init);
