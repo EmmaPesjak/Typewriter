@@ -36,7 +36,7 @@ function init() {
         // Function that decides which options are available in the dropdown list.
 
         // Resets the current dropdown list.
-        document.getElementById("select").innerHTML = "";
+        select.innerHTML = "";
 
         // Depending on if/which radio button is clicked, add texts to the dropdown menu.
         if (document.getElementById("swedish").checked) {
@@ -70,7 +70,7 @@ function init() {
     }
 
     function SetUpText() {
-        // Updates the text box with the chosen text, title and author.
+        // Update the text box with the chosen text, title and author.
 
         document.getElementById("title").innerText = parsedList[select.value].title;
         chosenText = parsedList[select.value].text;
@@ -78,10 +78,10 @@ function init() {
         textDisplay.innerText = chosenText;
 
         // Calculate amount och words and characters in the chosen text.
-        const wordcount = chosenText.split(" ").length;
-        const charcount = chosenText.length;
+        const wordCount = chosenText.split(" ").length;
+        const charCount = chosenText.length;
         document.getElementById("author").innerText =
-            `${chosenAuthor} (${wordcount} words, ${charcount} chars)`;
+            `${chosenAuthor} (${wordCount} words, ${charCount} chars)`;
 
         resetFunc();
         stopFunc();
@@ -198,7 +198,7 @@ function init() {
         // Compare input with expected character
         if (input !== charToCompare) {
             spanElement.classList.add("incorrect");
-            const wrongSound = new Audio("../audio/wrong-sound.mp3");
+            const wrongSound = new Audio("audio/wrong-sound.mp3");
             wrongSound.play();
             errorCounter = errorCounter + 1;
         } else {
@@ -224,11 +224,11 @@ function init() {
 
         let netWPM = (((counter / 5) - errorCounter) /
             (timerNow.getTime() - timerStart.getTime()) * 60 * 1000).toFixed(0);
-        if (netWPM > 0) {
-            statsNWPM.innerText = `Net WPM: ${netWPM}`;
-        } else {
-            statsNWPM.innerText = "Net WPM: 0";
+        if (netWPM < 0) {
+            netWPM = 0;
         }
+        statsNWPM.innerText = `Net WPM: ${netWPM}`
+
 
         let accuracy = (100 - (errorCounter/counter * 100)).toFixed(0);
         statsAcc.innerText = `Accuracy: ${accuracy}%`;
@@ -246,7 +246,7 @@ function init() {
     const parsedList = [];
     const xhr = new XMLHttpRequest();
     xhr.addEventListener("load", importFromFile);
-    xhr.open("get", "../texts.xml", true);
+    xhr.open("get", "texts.xml", true);
     xhr.send();
 
     const textDisplay = document.getElementById("textarea");
@@ -272,7 +272,7 @@ function init() {
     let context = canvas.getContext("2d");
 
 
-    // Add eventlisteners on the buttons.
+    // Add event listeners on the buttons.
     document.querySelectorAll("input[name='swedish-english']")
         .forEach(button => button.addEventListener("change", SetUpDropDown));
 

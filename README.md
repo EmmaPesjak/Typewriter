@@ -74,7 +74,7 @@ For the grade E requirements of the project the `statistics` function simply cal
 accuracy and amount of errors, and wrote it om the page. The gross and net WPM were calculated as stated in the project 
 guidance, with the counter and timers, and then rounded with no fraction digits. However, if the user were to perform
 very badly, the net WPM would go below zero. This is a logical error since you cannot write fewer than zero words per 
-minute. With an `if-statement` net WPM below zero would be written out as 0. To calculate the accuracy, the 
+minute. With an `if-statement` net WPM below zero would be given the value of 0 instead. To calculate the accuracy, the 
 error counter was divided by the counter then multiplied by 100, and this was then subtracted from 100. It was also 
 rounded with no fraction digits. The amount of errors was calculated by the error counter in the `gameInput` function. 
 The canvas drawing was added to this function during the grade A implementations. For each user input the canvas would 
@@ -88,41 +88,83 @@ changed image on the start/stop button, disabled the input text box and removed 
 
 By doing the grade B implementations a few changes had to be done since the text information was not to be 
 hard coded in anymore. To get a good structure of the code, separate functions were made for setting up the text
-information, the dropdown menu and for grade A, the canvas.
+information, the dropdown menu and for grade A, the canvas. In order to load the XML file, an XML HTTP request was done
+and an event listener which ran on load and called the `importFromFile` function was implemented. The function 
+parsed the information from the XML file response text with `DOMParser()` and `parseFromString()`. Lists of all 
+titles, authors, languages and texts were created and with these a list of objects containing all information for each
+text was created. An ID for each item was also added here to be used later in other functions. The function then called 
+the `SetUpDropDown` and `SetUpText` functions, and added an event listener to the dropdown menu on change to 
+again call the `SetUpText` function.
 
+Next function to be implemented was the `SetUpDropDown` function, since this was called from the `importFromFile`
+function. To get the dropdown to only display text with the chosen language (if any chosen), the dropdown was reset
+each time the user changed the language. An event listener was added in the `init` function on the buttons,
+and called the function on click. The function would empty the dropdown and with an `if-statement` check which, if any,
+language was chosen. Then use the parsed list of objects to add values and text contents for each option in the 
+dropdown. It would then call the `SetUpText` function to update the text box information to make sure that a text in 
+english was displayed if english was checked, and a swedish text if swedish was checked.
 
-
-const parsedList = [];
-const xhr = new XMLHttpRequest();
-xhr.addEventListener("load", importFromFile);
-xhr.open("get", "../texts.xml", true);
-xhr.send();
-
-`importFromFile`
-
-
-
-`SetUpDropDown`
-`SetUpText`
-
+The `SetUpText` function was implemented to update the text box with the chosen text, title and author. This was done 
+by taking the parsed list of objects from the XML file, and getting each item by taking the select value,
+which was the same as the appointed ID. The function also calculated the amount of words and characters in the 
+chosen text by counting the total length and by splitting and at blank space and then counting the length. 
+Lastly, this function called the `resetFunc`, `stopFunc` and `setCanvas` functions to prepare the game for the next 
+round.
 
 The `setCanvas` function set the width and height of the canvas, and drew out the guidelines using very thin rectangles.
 It also set the starting point, here again by inverting the Y-axis and starting at the canvas height.
 
-Lastly the `init` function was implemented. .....
+Lastly the `init` function was implemented, and outside it, an event listener that ran the function on load. The 
+function wrapped all the other functions and declared a few constants, variables and arrays used throughout the script.
+This was where the XMLHttp request was done. It also had the event listeners for the radio button and start/play button.
 
 
 ## Discussion
 
-Knowing I was aiming for grade A.... decided to implement everything, started by doing all html and then css.
-the most challengeing part of thiss project was the grade B implementation, to get the XML working
+Knowing from the beginning that I was aiming for a higher grade, I decided to implement everything in the project 
+requirements (except for the canvas in grade A, since I had to read up a lot on canvases before implementing it) from 
+the start in the HTML and CSS. Almost all the HTML and CSS was finished before I even started with the JavaScript. 
+I also thought that it would be easier to set the layout and design of the page set from the beginning, and not 
+having to bother later with grids, paddings, margins, structure etc. Of course, the added radio buttons and checkbox
+for grade B ans C did not function from the beginning but this was all fixed later when the JavaScript was implemented.
+
+As with the laborations in this course, the HTML and CSS was fairly straight forward to implement. It is incredibly 
+easy to just put all HTML elements into `<div>`s to get the wanted layout of the page, but since it is understandably
+frowned upon, I tried to use other tags as much as possible. Creating the animation was probably the most challenging 
+part of the CSS, but with a bit of reading up on the subject, the implementation was easy. The colour palette of the 
+page could probably be improved to make the letters in the text box easier to read, but since this is not a design
+course, I deemed it to be good enough. 
 
 
-först html och css
-sen typsnitt och animation i D-delen
-sen drop downen
+set up dropdown
+set up text
+reset
+stop
+set canvas
+startstopgame
+spantext
+gameinput
+statistics
+init
 
-visste från början att jag ville göra upp till A..
+import from file
+the most challenging part of this project was the grade B implementation, to get the XML import working and parsed.
+provade först att implementera xml men hårdkodade först för att göra det enkelt för mig och bryta ner projektet lite
 
+
+
+The `resetFunc` function reset all counters, the statistics and the canvas, while the `stopFunc` function simply
+changed image on the start/stop button, disabled the input text box and removed the text in it.
+LÄGG TILL HÄR ATT DESSA ÄR TVÅ OLIKA FÖR DE BLIR CALLADE PÅ OLIKA STÄLLEN - ELLER I DISKUSSIONEN
 
 y axeln hade ju kunnat inverteras bättre, maybe not the most programmy solution, might be a more mathematical solution
+
+Drawing rectangles as guidelines in the canvas diagram might not be the fanciest solution, but I thought it to be
+pretty simple and not requiring very many lines of code.
+
+This course has taught me..?
+
+By completing all requirements for grade E-A, I have shown my ability to create a web application using HTML, CSS and 
+JavaScript, and thereby the purpose has been fulfilled. 
+
+

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" remoteFilesAllowedToDisappearOnAutoupload="false">
+    <serverData>
+      <paths name="Miun">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/public_html/dtg/project" local="$PROJECT_DIR$" web="/dtg/project" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
