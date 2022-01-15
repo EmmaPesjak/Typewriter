@@ -1,19 +1,16 @@
-
-function init() {
 // Initiate the script and call the importFromFile function.
+function init() {
 
-
+    // Parse and import information from the XML file.
     function importFromFile() {
-        // Parse and import information from the XML file.
+        const parser =  new DOMParser();
+        const xml = parser.parseFromString(xhr.responseText, "application/xml");
+        const titles = xml.querySelectorAll("title");
+        const authors = xml.querySelectorAll("author");
+        const languages = xml.querySelectorAll("language");
+        const texts = xml.querySelectorAll("text");
 
-        let parser =  new DOMParser();
-        let xml = parser.parseFromString(xhr.responseText, "application/xml");
-        let titles = xml.querySelectorAll("title");
-        let authors = xml.querySelectorAll("author");
-        let languages = xml.querySelectorAll("language");
-        let texts = xml.querySelectorAll("text");
-
-        // Loop over the XML file to create an object with all information,
+        // Loop over the XML file to create a list of objects with all information,
         // giving each item an ID to match the index to be used in other functions.
         for (let i = 0; i < titles.length; i++) {
             parsedList.push({
@@ -25,16 +22,15 @@ function init() {
             })
         }
 
-        // Call the SetUpDropDown and SetUpText in order to update the page with all information.
+        // Call the setUpDropDown and setUpText in order to update the page with all information.
         // Also add event listener to change on the dropdown menu in order to change the text box.
-        SetUpDropDown();
-        SetUpText();
-        select.addEventListener("change", SetUpText);
+        setUpDropDown();
+        setUpText();
+        select.addEventListener("change", setUpText);
     }
 
-    function SetUpDropDown() {
-        // Function that decides which options are available in the dropdown list.
-
+    // Function that decides which options are available in the dropdown list.
+    function setUpDropDown() {
         // Resets the current dropdown list.
         select.innerHTML = "";
 
@@ -48,7 +44,7 @@ function init() {
                     select.add(el);
                 }
             })
-            SetUpText();
+            setUpText();
         } else if (document.getElementById("english").checked) {
             parsedList.forEach(textObj => {
                 if (textObj.language === "english") {
@@ -58,8 +54,10 @@ function init() {
                     select.add(el);
                 }
             })
-            SetUpText();
+            setUpText();
         } else {
+            // If none of the radio buttons are clicked, we end up in this case,
+            // this is only possible on initial load since you cannot unclick radio buttons.
             parsedList.forEach(textObj => {
                 const el = document.createElement("option");
                 el.value = textObj.id;
@@ -69,12 +67,11 @@ function init() {
         }
     }
 
-    function SetUpText() {
-        // Update the text box with the chosen text, title and author.
-
+    // Update the text box with the chosen text, title and author.
+    function setUpText() {
         document.getElementById("title").innerText = parsedList[select.value].title;
         chosenText = parsedList[select.value].text;
-        let chosenAuthor = parsedList[select.value].author;
+        const chosenAuthor = parsedList[select.value].author;
         textDisplay.innerText = chosenText;
 
         // Calculate amount och words and characters in the chosen text.
@@ -83,14 +80,13 @@ function init() {
         document.getElementById("author").innerText =
             `${chosenAuthor} (${wordCount} words, ${charCount} chars)`;
 
-        resetFunc();
-        stopFunc();
-        setCanvas();
+        stopGame();
+        resetGame();
+        setUpCanvas();
     }
 
-    function resetFunc() {
-        // Reset all counters, statistics and canvas.
-
+    // Reset all counters, statistics and canvas.
+    function resetGame() {
         errorCounter = 0;
         counter = 0;
         statsErr.innerText = "Errors:";
@@ -100,29 +96,30 @@ function init() {
         context.clearRect(0, 0, canvas.width, canvas.height);
     }
 
-    function stopFunc() {
-        // Sets the play button, and disables and empties the input field.
-
+    // Sets the play button, and disables and empties the input field.
+    function stopGame() {
         playStopImg.setAttribute("src", "img/play.png");
         inputElement.disabled = true;
         inputElement.value = "";
     }
 
-    function setCanvas() {
-        // Set up the canvas with size, lines and starting point.
+    // Set up the canvas with size, lines and starting point.
+    function setUpCanvas() {
         canvas.width = 200;
         canvas.height = 100;
         context.fillStyle = "darkslategray";
-        context.fillRect(0, 20, 200, 1);
-        context.fillRect(0, 40, 200, 1);
-        context.fillRect(0, 60, 200, 1);
-        context.fillRect(0, 80, 200, 1);
+        context.fillRect(0, canvas.height * 1/5, canvas.width, 1);
+        context.fillRect(0, canvas.height * 2/5, canvas.width, 1);
+        context.fillRect(0, canvas.height * 3/5, canvas.width, 1);
+        context.fillRect(0, canvas.height * 4/5, canvas.width, 1);
         context.beginPath();
         context.moveTo(0, canvas.height);
     }
 
+    // Depending on the state, either start or stop the game.
     function startStopGame() {
-        // Depending on the state, either start or stop the game.
+        // Change game state.
+        gameOn = !gameOn;
 
         if (gameOn) {
             // Change image on play/stop button.
@@ -131,30 +128,27 @@ function init() {
             // Enable the input field.
             inputElement.disabled = false;
 
-            // Start the timer
-            timerStart = new Date();
-
             // Automatically focus the input field.
             inputElement.focus();
 
-            resetFunc();
-            setCanvas();
+            // Start the timer
+            timerStart = new Date();
+
+            resetGame();
+            setUpCanvas();
             spanText();
         } else {
             // Call stop function to stop the game.
-            stopFunc();
-            // Remove the text background on the first character in case player only clicks play/stop/play/stop
-            arrayText[0].classList.remove("text-background");
+            stopGame();
+            // Remove the text background on the first character in case player only clicks play/stop/play/stop...
+            charArray[0].classList.remove("text-background");
         }
-
-        // Change game state.
-        gameOn = !gameOn;
     }
 
+    // Function that sets each character, including spaces, in spans. This is to enable
+    // modification of the styling on each character.
     function spanText() {
-        // Function that sets each character, including space, in an span.
-
-        // removes placeholder text so that the spanned text can take its place.
+        // Remove placeholder text so that the spanned text can take its place.
         textDisplay.innerText = "";
 
         chosenText.split("").forEach(character => {
@@ -163,22 +157,24 @@ function init() {
             textDisplay.appendChild(characterSpan);
         })
 
-        arrayText = textDisplay.querySelectorAll("span");
+        // Store all spans in an array so that we can access the elements when
+        // comparing with game input.
+        charArray = textDisplay.querySelectorAll("span");
 
-        arrayText[0].classList.add("text-background");
+        charArray[0].classList.add("text-background");
 
         inputElement.addEventListener("input", gameInput);
     }
 
+    // Function that compares user input with the text and adds classes/ plays sound
+    // depending on if user is correct or not.
     function gameInput(e) {
-        // Function that compares user input with the text and adds classes/ plays sound
-        // depending on if user is correct or not.
+        const spanElement = charArray[counter];
+        const nextElement = charArray[(counter + 1)];
 
-        const spanElement = arrayText[counter];
-        const nextElement = arrayText[(counter + 1)];
-
-        // Make sure script works when user is at end of text.
-        if (counter === arrayText.length - 1) {
+        // Make sure script works when user is at end of text to avoid trying to access
+        // next character when on the last character.
+        if (counter === charArray.length - 1) {
             spanElement.classList.remove("text-background");
             inputElement.disabled = true;
         } else {
@@ -186,20 +182,21 @@ function init() {
             spanElement.classList.remove("text-background");
         }
 
-        // Check if ignore casing is checked.
-        const ignoreCasing = document.getElementById("ignore-casing");
         let input = e.data;
         let charToCompare = spanElement.innerText;
+
+        // If ignore casing is checked, change the characters to lowercase.
+        const ignoreCasing = document.getElementById("ignore-casing");
         if (ignoreCasing.checked) {
             input = input.toLowerCase();
             charToCompare = charToCompare.toLowerCase();
         }
 
-        // Compare input with expected character
+        // Compare input with expected character and evaluate.
         if (input !== charToCompare) {
             spanElement.classList.add("incorrect");
             const wrongSound = new Audio("audio/wrong-sound.mp3");
-            wrongSound.play();
+            wrongSound.play().catch(err => console.log(err));
             errorCounter = errorCounter + 1;
         } else {
             spanElement.classList.add("correct");
@@ -210,15 +207,15 @@ function init() {
             inputElement.value = "";
         }
 
-        //increment the counter and get the time for the input.
+        // Increment the counter and get the time for the input.
         counter = counter + 1;
         let timerNow = new Date();
         statistics(timerNow);
     }
 
+    // Function that calculate and display statistics on the page.
     function statistics(timerNow) {
-        // Function that calculate and display statistics on the page.
-
+        // Calculate gross WPM, assuming words have a length of 5 characters.
         let grossWPM = (((counter / 5) / (timerNow.getTime() - timerStart.getTime())) * 60 * 1000).toFixed(0);
         statsGWPM.innerText = `Gross WPM: ${grossWPM}`;
 
@@ -228,7 +225,6 @@ function init() {
             netWPM = 0;
         }
         statsNWPM.innerText = `Net WPM: ${netWPM}`
-
 
         let accuracy = (100 - (errorCounter/counter * 100)).toFixed(0);
         statsAcc.innerText = `Accuracy: ${accuracy}%`;
@@ -252,16 +248,19 @@ function init() {
     const textDisplay = document.getElementById("textarea");
     let select = document.getElementById("select");
     let chosenText;
-    let arrayText;
+    let charArray;
     const inputElement = document.getElementById("inputtext");
 
     let counter;
     let errorCounter;
     let timerStart;
 
+    // This is for caching the sound on the webpage to prevent any delays.
+    new Audio("audio/wrong-sound.mp3");
+
     const playStopImg = document.getElementById("play-stop");
 
-    let gameOn = true;
+    let gameOn = false;
 
     const statsGWPM = document.getElementById("gross");
     const statsNWPM = document.getElementById("net");
@@ -271,11 +270,11 @@ function init() {
     let canvas = document.querySelector("canvas");
     let context = canvas.getContext("2d");
 
-
-    // Add event listeners on the buttons.
+    // Add event listeners that sets up the dropdown menu when clicking the radio buttons.
     document.querySelectorAll("input[name='swedish-english']")
-        .forEach(button => button.addEventListener("change", SetUpDropDown));
+        .forEach(button => button.addEventListener("change", setUpDropDown));
 
+    // Add event listener to the play/stop button.
     document.getElementById("btn").addEventListener("click", startStopGame);
 }
 
