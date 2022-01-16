@@ -38,32 +38,29 @@ function init() {
         if (document.getElementById("swedish").checked) {
             parsedList.forEach(textObj => {
                 if (textObj.language === "swedish") {
-                    const el = document.createElement("option");
-                    el.value = textObj.id;
-                    el.textContent = textObj.title;
-                    select.add(el);
+                    addOption(textObj)
                 }
             })
             setUpText();
         } else if (document.getElementById("english").checked) {
             parsedList.forEach(textObj => {
                 if (textObj.language === "english") {
-                    const el = document.createElement("option");
-                    el.value = textObj.id;
-                    el.textContent = textObj.title;
-                    select.add(el);
+                    addOption(textObj)
                 }
             })
             setUpText();
         } else {
             // If none of the radio buttons are clicked, we end up in this case,
             // this is only possible on initial load since you cannot unclick radio buttons.
-            parsedList.forEach(textObj => {
-                const el = document.createElement("option");
-                el.value = textObj.id;
-                el.textContent = textObj.title;
-                select.add(el);
-            })
+            parsedList.forEach(addOption)
+        }
+
+        // Add option in the dropdown.
+        function addOption(textObj) {
+            const el = document.createElement("option");
+            el.value = textObj.id;
+            el.textContent = textObj.title;
+            select.add(el);
         }
     }
 

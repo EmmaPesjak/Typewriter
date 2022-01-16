@@ -101,9 +101,10 @@ Next function to be implemented was the `setUpDropDown` function, since this was
 function. To get the dropdown to only display text with the chosen language (if any chosen), the dropdown was reset
 each time the user changed the language. An event listener was added in the `init` function on the buttons,
 and called the function on click. The function would empty the dropdown and with an `if-statement` check which, if any,
-language was chosen. Then use the parsed list of objects to add values and text contents for each option in the 
-dropdown. It would then call the `setUpText` function to update the text box information to make sure that a text in 
-english was displayed if english was checked, and a swedish text if swedish was checked.
+language was chosen. Then, with the `addOption` function use the parsed list of objects to add values and text 
+contents for each option in the dropdown. It would then call the `setUpText` function to update the text box
+information to make sure that a text in english was displayed if english was checked, and a swedish text if 
+swedish was checked.
 
 The `setUpText` function was implemented to update the text box with the chosen text, title and author. This was done 
 by taking the parsed list of objects from the XML file, and getting each item by taking the select value,
